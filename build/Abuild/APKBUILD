@@ -1,0 +1,55 @@
+# Contributor: Łukasz Jendrysik <scadu@yandex.com>
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=xfce4-session
+pkgver=4.21.0
+pkgrel=2
+pkgdesc="Session manager for Xfce"
+url="https://xfce.org/"
+arch="all"
+license="GPL-2.0-or-later"
+subpackages="$pkgname-doc $pkgname-lang"
+depends="hicolor-icon-theme"
+makedepends="
+	gtk-layer-shell-dev
+	intltool
+	libxfce4ui-dev
+	libxfce4util-dev
+	libxfce4windowing-dev
+	xfce4-panel-dev
+	gtk3-dev
+	xfce4-dev-tools
+	xfconf-dev
+	meson
+	"
+source="https://archive.xfce.org/src/xfce/xfce4-session/${pkgver%.*}/xfce4-session-$pkgver.tar.xz
+       disable-x11-session-settings.patch 
+       0001-Fix-logout-shutdown-and-restart.patch
+	"
+
+build() {
+	abuild-meson \
+	    -Dx11=disabled \
+	    -Dwayland=enabled \
+	    . output
+	meson compile -C output
+}
+
+check() {
+	meson test -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+	cat > "$pkgdir"/usr/bin/xfce4-wayland <<-EOF
+		#!/bin/sh
+		exec dbus-launch startxfce4 --wayland
+	EOF
+	chmod +x "$pkgdir"/usr/bin/xfce4-wayland
+}
+
+
+sha512sums="
+31b8bff244b41c876208a83fe13e9932196464f8d799572ec7bfbddfc1bfecbdae610dddb5f187d9d8be686a4c28fa7e430d70e7eebbe9a957f934bcb2f3f99d  xfce4-session-4.21.0.tar.xz
+30c74ce08d9d613d4e1d299941d5eafc33da29cef210007fa1d184032ce6be2d604cc30f6e5f404e1b5ace26a3687d717686863faa931b73cb0d319b93a4588c  disable-x11-session-settings.patch
+11d0eb8fd397014529d7611404c172fcaae250be9230fafeceac52f9b5796abd91ed97e4164ea3e2b8ed12a62cdc3edd2f6033e8f56b39c9f3d335b81493a407  0001-Fix-logout-shutdown-and-restart.patch
+"

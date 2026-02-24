@@ -1,0 +1,21 @@
+--- xfce4-session-4.21.0.orig/settings/main.c
++++ xfce4-session-4.21.0/settings/main.c
+@@ -162,8 +162,6 @@
+       return EXIT_FAILURE;
+     }
+ 
+-  session_editor_init (builder);
+-
+   channel = xfconf_channel_get (SETTINGS_CHANNEL);
+ 
+   /* FIXME: someday, glade-ify this, maybe. */
+--- xfce4-session-4.21.0.orig/settings/meson.build
++++ xfce4-session-4.21.0/settings/meson.build
+@@ -1,6 +1,5 @@
+ settings_sources = [
+   'main.c',
+-  'session-editor.c',
+   'xfae-dialog.c',
+   'xfae-dialog.h',
+   'xfae-model.c',
+

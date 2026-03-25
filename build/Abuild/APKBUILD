@@ -2,7 +2,7 @@
 # Maintainer: Natanael Copa <ncopa@alpinelinux.org>
 pkgname=xfce4-session
 pkgver=4.21.0
-pkgrel=${pkgrel:-0}
+pkgrel=2
 pkgdesc="Session manager for Xfce"
 url="https://xfce.org/"
 arch="all"
@@ -48,7 +48,6 @@ package() {
 }
 
 
-options="$options ${DISABLE_CHECK:+!check}"
 sha512sums="
 31b8bff244b41c876208a83fe13e9932196464f8d799572ec7bfbddfc1bfecbdae610dddb5f187d9d8be686a4c28fa7e430d70e7eebbe9a957f934bcb2f3f99d  xfce4-session-4.21.0.tar.xz
 30c74ce08d9d613d4e1d299941d5eafc33da29cef210007fa1d184032ce6be2d604cc30f6e5f404e1b5ace26a3687d717686863faa931b73cb0d319b93a4588c  disable-x11-session-settings.patch
